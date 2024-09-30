@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/aaron/workspace/PycharmProjects/osm_odometry_v2/src/icp_cpp/cmake-build-debug",
+  "command": "/usr/bin/c++ -Dicp_cpp_EXPORTS -I/home/aaron/workspace/PycharmProjects/osm_odometry_v2/src/icp_cpp/src -I/home/aaron/workspace/PycharmProjects/osm_odometry_v2/src -isystem /usr/include/python3.10 -isystem /usr/local/include/eigen3 -O3 -DNDEBUG -fPIC -fvisibility=hidden -fdiagnostics-color=always -fdiagnostics-color=always -Werror -Wall -Wextra -pedantic -Wcast-align -Wcast-qual -Wconversion -Wdisabled-optimization -Woverloaded-virtual -flto -fno-fat-lto-objects -o src/CMakeFiles/icp_cpp.dir/bind.cpp.o -c /home/aaron/workspace/PycharmProjects/osm_odometry_v2/src/icp_cpp/src/bind.cpp",
+  "file": "/home/aaron/workspace/PycharmProjects/osm_odometry_v2/src/icp_cpp/src/bind.cpp",
+  "output": "src/CMakeFiles/icp_cpp.dir/bind.cpp.o"
+}
+]

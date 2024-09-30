@@ -1,0 +1,15 @@
+
+src/icp_cpp/build
+src/icp_cpp/icp_cpp.egg-info
+res/*
+!res/map_kitti_*.bin
+!res/pipeline.rviz
+!res/video.mp4
+venv
+out
+.idea
+
+src/dataloader_rosbag.py
+src/dataloader_boreas.py
+src/dataloader_okular.py
+src/create_maps.py
