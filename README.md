@@ -34,13 +34,11 @@ to evaluate the result of our method on sequence 00 of the KITTI odometry data s
 Use the argument `--plot` to see an interactive plot of the estimated and ground truth trajectories.
 
 
-
-
 # Installation
 ## Installation of the core icp_cpp module
 Install the pip package icp_cpp with `pip install src/icp_cpp`.
-Third party C++ dependencies have to be installed manually:
-- Eigen 3.3 (version 3.4 might not work)
+Third party C++ dependencies are installed automatically:
+- Eigen
 - Sophus
 - Pybind11
 - oneTBB
