@@ -1,10 +1,8 @@
 # Reducing Drift of Lidar Odometry by Incorporating OpenStreetMap Building Data
-Read our paper [here](https://www.techrxiv.org/users/812931/articles/1214384-reducing-drift-of-lidar-odometry-by-incorporating-openstreetmap-building-data)
+**Disclaimer: This repository is currently under construction, more features and data will be added in the beginning of October**
 
-Disclaimer: 
-- This repository is currently under construction and is missing many quality of life features for installation and execution.
-- This version currently only supports the KITTI odometry file format. Other dataloader will follow.
-- This version currently does not contain the script for building custom maps. We have included pre-built maps for the KITTI odometry data set
+
+Read our paper [here](https://www.techrxiv.org/users/812931/articles/1214384-reducing-drift-of-lidar-odometry-by-incorporating-openstreetmap-building-data)
 
 # Usage:
 Execute our method with
