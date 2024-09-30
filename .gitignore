@@ -8,6 +8,7 @@ res/*
 venv
 out
 .idea
+__pycache__
 
 src/dataloader_rosbag.py
 src/dataloader_boreas.py
