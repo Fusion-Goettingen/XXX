@@ -4,13 +4,17 @@
 
 Read our paper [here](https://www.techrxiv.org/users/812931/articles/1214384-reducing-drift-of-lidar-odometry-by-incorporating-openstreetmap-building-data)
 
-# Usage:
 
-## Quickstart:
-Run the following commands to first
+# Quickstart:
+First, install the `icp_cpp` package using
+```bash
+pip install ./src/icp_cpp
+```
+(may require you to download some pip packages manually, sorry :()
+and then run the following commands to
 - create a map for a sequence of the KITTI odometry data set
 - execute our method on it
-- and finally evaluate the results and show a plot of the trajectory
+- and evaluate the results and show a plot of the trajectory
 ```bash
 seq=00
 kitti_path=/path/to/kitti
@@ -19,6 +23,7 @@ python3 src/Pipeline.py $kitti_path/sequences/$seq/velodyne/ --map ./res/map_kit
 python3 src/eval.py ./out/results_kitti_$seq.json $kitti_path/poses/$seq.txt --plot
 ```
 
+# Usage:
 ## Execute our method with Pipeline.py
 Execute our method with
 ```bash
@@ -51,16 +56,5 @@ to create a global map with radius of 1 degrees around the geodesic coordinate (
 # Installation
 ## Installation of the core icp_cpp module
 Install the pip package icp_cpp with `pip install src/icp_cpp`.
-Third party C++ dependencies are installed automatically:
-- Eigen
-- Sophus
-- Pybind11
-- oneTBB
-## Installation of python dependencies
-- Numpy
-- Scipy
-- pykitti
-- matplotlib
-- and probably others
-
+Third party C++ dependencies are installed automatically and same pip packages may have to be installed manually (sorry for that :/)
 
