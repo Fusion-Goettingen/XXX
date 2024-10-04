@@ -5,57 +5,6 @@ from scipy.spatial.transform import Rotation
 from SE3 import SE3
 
 
-def project(poses_from, poses_to):
-    assert poses_from.shape == poses_to.shape
-
-    poses_res = np.zeros(poses_from.shape)
-
-    euler_order = "xyz"
-
-    for i in range(poses_from.shape[0]):
-        euler_from = Rotation.from_matrix(poses_from[i][:-1, :-1]).as_euler(
-            euler_order, False
-        )
-        euler_to = Rotation.from_matrix(poses_to[i][:-1, :-1]).as_euler(
-            euler_order, False
-        )
-        euler_res = np.array([euler_to[0], euler_from[1], euler_from[2]])
-        R_res = Rotation.from_euler(euler_order, euler_res, False).as_matrix()
-
-        t_from = poses_from[i][:-1, -1]
-        t_to = poses_to[i][:-1, -1]
-        t_res = np.array([t_from[0], t_from[1], t_to[2]])
-
-        pose_res = np.eye(4)
-        pose_res[:-1, :-1] = R_res
-        pose_res[:-1, -1] = t_res
-        poses_res[i] = pose_res
-
-    return poses_res
-
-
-def project_3D_to_2D(poses):
-    poses_res = np.zeros(poses.shape)
-
-    euler_order = "ZYX"
-
-    for i in range(poses.shape[0]):
-        euler = Rotation.from_matrix(poses[i][:-1, :-1]).as_euler(euler_order, False)
-        euler[1] = 0
-        euler[2] = 0
-        R_res = Rotation.from_euler(euler_order, euler, False).as_matrix()
-
-        t_res = poses[i][:-1, -1]
-        t_res[2] = 0
-
-        pose_res = np.eye(4)
-        pose_res[:-1, :-1] = R_res
-        pose_res[:-1, -1] = t_res
-        poses_res[i] = pose_res
-
-    return poses_res
-
-
 def __get_first_with_len(distances, length, first_frame):
     i = first_frame
     if length == -1:
@@ -72,16 +21,7 @@ def __get_first_with_len(distances, length, first_frame):
 
 
 # Calculates the angle of pose_error
-# Explanation: https://math.stackexchange.com/questions/2113634/comparing-two-rotation-matrices
 def __rotation_error(pose_error):
-    # Original implementation
-    """
-    a = pose_error[0,0]
-    b = pose_error[1,1]
-    c = pose_error[2,2]
-    d = 0.5*(a+b+c-1.0)
-    """
-
     abc = np.trace(pose_error[:-1, :-1])
     d = 0.5 * (abc - 1.0)
 
@@ -98,11 +38,6 @@ def eval(
     lengths=np.arange(100, 800, 100),
     step_size=10,
 ):
-    """
-    Calculates translational and rotational errors between a ground truth sequence of poses `poses_gt` and an estimated sequence `poses_es`
-    Returns a list of tuples (start_frame,num_frames,length,trans_error,rot_error,speed), corresponding to the errors on subsequences of the original sequence.
-    trans_error is returned in % and rot_error in deg/m
-    """
 
     if isinstance(poses_gt[0], SE3):
         poses_gt = np.array([T.matrix() for T in poses_gt])
@@ -192,14 +127,16 @@ def print_eval(es_poses,gt_poses):
     gt_poss = np.array([T.t for T in gt_poses])
     ATEs3D = np.linalg.norm(es_poss - gt_poss,axis=-1)
     ATEs2D = np.linalg.norm((es_poss - gt_poss)[:,:2], axis=-1)
-    print(f"mean ATE 3D: {np.mean(ATEs3D)}")
-    print(f"mean ATE 2D: {np.mean(ATEs2D)}")
+    print(f"{args.es_poses}: mean ATE 2D: {np.mean(ATEs2D)}")
 
 if __name__ == "__main__":
     import argparse
     import json
     from SE3 import SE3
     from pathlib import Path
+    import warnings
+
+    warnings.filterwarnings("ignore")
 
     parser = argparse.ArgumentParser(
         prog="Eval",

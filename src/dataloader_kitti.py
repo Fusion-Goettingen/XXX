@@ -1,5 +1,6 @@
 from scipy.spatial.transform import Rotation
 import numpy as np
+from SE3 import SE3
 
 def correct_KITTI_pointcloud(points):
     VERTICAL_ANGLE_OFFSET = (0.205 * np.pi) / 180.0
@@ -22,3 +23,19 @@ def pointcloud_generator(files,correct=True):
         if correct:
             data[:, :3] = correct_KITTI_pointcloud(data[:, :3])
         yield 0.1 * i, data
+
+
+def gt_poses(home_dir, seq, relative=True):
+    import pykitti
+    if relative:
+        drive = pykitti.odometry(home_dir, seq)
+        T_cam0_velo = drive.calib.T_cam0_velo
+        poses = np.array(drive.poses).astype(np.float32)
+        left = np.einsum("...ij,...jk->...ik", np.linalg.inv(T_cam0_velo), poses)
+        right = np.einsum("...ij,...jk->...ik", left, T_cam0_velo)
+        timestamps = np.linspace(0, 0.1 * len(poses), len(poses))
+
+        return timestamps, np.array([SE3.from_matrix(e) for e in right])
+    else:
+
+        raise NotImplementedError

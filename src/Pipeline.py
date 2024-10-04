@@ -80,7 +80,10 @@ class Pipeline_P2P:
         T_L = T_ICP * T_L_pred
 
         # global ICP, use T_L as initial guess for the pose and set Z-coordinates to 0
-        _pc = T_L.apply(frame_icp)
+        eulers = T_L.as_euler()
+        eulers[[2,3,4]] = 0
+        T_L_pred = SE3.from_euler(eulers[:3], eulers[3:])
+        _pc = (T_L_pred).apply(frame_icp)
         _pc[:, 2] = 0
         T_ICP_OSM = icp_cpp.ICP(
             _pc,

@@ -94,6 +94,14 @@ class SE3:
         else:
             return SE3(mat[:,-1],mat[:,:-1])
 
+    @staticmethod
+    def from_euler(position,angles,seq="XYZ"):
+        R = Rotation.from_euler(seq,angles)
+        return SE3(position,R)
+
+    def as_euler(self,seq="XYZ"):
+        return np.array([*self.t,*self.R.as_euler(seq)])
+
     def __str__(self):
         return str(self.log())
 

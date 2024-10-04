@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def llas_to_cart(llas, origin=None):
     def lla_to_cart(lla, scale):
         lat = lla[0]
