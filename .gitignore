@@ -3,7 +3,7 @@ src/icp_cpp/build
 src/icp_cpp/icp_cpp.egg-info
 res/*
 !res/pipeline.rviz
-!res/video.mp4
+!res/video.mkv
 venv
 .venv
 out/*
