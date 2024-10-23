@@ -7,6 +7,8 @@ Panels:
         - /Global Options1
         - /Local Map1
         - /Global Map1
+        - /GT Poses1
+        - /ES Poses1
       Splitter Ratio: 0.5088235139846802
     Tree Height: 1106
   - Class: rviz_common/Selection
@@ -26,7 +28,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Local Map
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -78,7 +80,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: local_map
+        Value: /local_map
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -112,7 +114,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: global_map
+        Value: /global_map
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -156,7 +158,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: es_poses
+        Value: /es_poses
       Value: true
   Enabled: true
   Global Options:
@@ -213,11 +215,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 2.4845633506774902
+      Scale: 10
       Target Frame: camera
       Value: TopDownOrtho (rviz_default_plugins)
-      X: -101.02379608154297
-      Y: -17.30686378479004
+      X: 0
+      Y: 0
     Saved: ~
 Window Geometry:
   Displays:
@@ -235,5 +237,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 2560
-  X: 0
+  X: 2560
   Y: 0
