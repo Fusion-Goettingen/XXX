@@ -1,5 +1,4 @@
 import numpy as np
-from IPython.core.hooks import deprecated
 from scipy.spatial.transform import Rotation
 
 class SE3:

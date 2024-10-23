@@ -5,6 +5,7 @@ res/*
 !res/pipeline.rviz
 !res/video.mp4
 venv
+.venv
 out/*
 .idea
 __pycache__

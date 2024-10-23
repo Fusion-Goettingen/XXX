@@ -57,3 +57,6 @@ to create a global map with radius of 1 degrees around the geodesic coordinate (
 Install the pip package icp_cpp with `pip install src/icp_cpp`.
 Third party C++ dependencies are installed automatically and same pip packages may have to be installed manually (sorry for that :/)
 
+# Known problems:
+## Pipeline.py: Segmentation fault (core dumped)
+Make sure you use numpy version 1.26.4 (or lower)

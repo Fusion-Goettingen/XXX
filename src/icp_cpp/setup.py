@@ -136,6 +136,6 @@ setup(
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     extras_require={"test": ["pytest>=6.0"]},
-    install_requires=["numpy", "scipy", "matplotlib", "pykitti", "tqdm", "rosbags"],
+    install_requires=["numpy==1.26.4", "scipy", "matplotlib", "pykitti", "tqdm", "rosbags"],
     python_requires=">=3.10",
 )
