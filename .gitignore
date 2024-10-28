@@ -12,4 +12,3 @@ __pycache__
 
 src/dataloader_rosbag.py
 src/dataloader_boreas.py
-src/dataloader_okular.py

@@ -28,7 +28,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: Global Map
 Visualization Manager:
   Class: ""
   Displays:
@@ -215,7 +215,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 10
+      Scale: 7.709843158721924
       Target Frame: camera
       Value: TopDownOrtho (rviz_default_plugins)
       X: 0

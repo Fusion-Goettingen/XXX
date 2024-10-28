@@ -2,6 +2,7 @@ import overpy
 import numpy as np
 import pickle
 from SE3 import SE3
+from util import llas_to_cart
 
 def sample_edge(a, b, sample_distance):
     ab = b - a
@@ -45,10 +46,7 @@ def download_OSM_ways(bbox, category="building"):
 
     return ways
 
-
-from util import llas_to_cart
-
-def create_map(T_init,radius=-1,ul=np.zeros(2),br=np.zeros(2),sample_distance=0.1,out_file=None):
+def create_map(T_init,radius=-1,ul=np.zeros(2),br=np.zeros(2),sample_distance=0.1):
     if radius!=-1:
         ul_lla = (T_init.t - radius)[:2]
         br_lla = (T_init.t + radius)[:2]
@@ -69,11 +67,6 @@ def create_map(T_init,radius=-1,ul=np.zeros(2),br=np.zeros(2),sample_distance=0.
 
     #Returns all building in one list
     sampled_map = np.vstack(sampled_ways)
-
-    #Save to file to path is not None
-    if out_file is not None:
-        with open(out_file, 'wb') as f:
-            pickle.dump(sampled_map,f)
 
     return sampled_map
 
@@ -100,6 +93,12 @@ kitti_odometry_map_creation_data = {
     '10':([0.9614570037367414, 0.2695055256937767, -0.05447202572044673, 48.97253396005, -0.2711117642262215, 0.9622361205275943, -0.024496115001177692, 8.4785980847297, 0.04581311235567439, 0.03831996832626937, 0.9982147758692816, 220.36932373047],[48.965459913885, 8.4754446849301],[48.97353396005, 8.4796640553283])
 }
 
+okular_remove_bbox = {
+    "b4": ([0,25],[60,110]),
+    "b5": ([0,25],[60,110])
+}
+
+
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(
@@ -114,6 +113,7 @@ if __name__ == "__main__":
     parser.add_argument("--br", default=[0, 0], type=list)
     parser.add_argument("--output_file", default="", type=str)
     parser.add_argument("--dataloader", default="", type=str)
+    parser.add_argument("--dataloader_arg", default="", type=str)
     parser.add_argument("--seq", default="", type=str)
     parser.add_argument("--show", action="store_true")
 
@@ -135,12 +135,32 @@ if __name__ == "__main__":
         ul = np.array(ul)
         br = np.array(br)
         radius = -1
+    if args.dataloader == "okular":
+        # Load the pose at the first lidar pose
+        import dataloader_okular
+        init_pose = dataloader_okular.first_lidar_pose(args.dataloader_arg)
+        _, gt_poses = dataloader_okular.gt_poses(args.dataloader_arg)
+        ul,br = get_bbox_around_poses(gt_poses)
+        radius = -1
 
     init_pose = init_pose.as_euler()
     init_pose[2:5] = 0
     init_pose = SE3.from_euler(init_pose[:3],init_pose[3:])
 
-    map = create_map(init_pose,radius=radius,ul=ul,br=br,out_file=args.output_file)
+    map = create_map(init_pose,radius=radius,ul=ul,br=br)
+
+    if args.dataloader == "okular":
+        # Remove a specific building when working with okular data set, as written in the paper
+        for seq, (bl,ur) in okular_remove_bbox.items():
+            if seq in args.dataloader_arg.split("/"):
+                mask1 = np.logical_or(map[:, 0] < bl[0], map[:, 0] > ur[0])
+                mask2 = np.logical_or(map[:, 1] < bl[1], map[:, 1] > ur[1])
+                mask = np.logical_or(mask1, mask2)
+                map = map[mask]
+
+    # Save to file to path
+    if args.output_file != "":
+        np.save(args.output_file, map)
 
     if args.show:
         import matplotlib.pyplot as plt

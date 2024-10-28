@@ -79,10 +79,7 @@ class Pipeline_P2P:
         T_ICP = SE3.from_matrix(T_ICP)
         T_L = T_ICP * T_L_pred
 
-        # global ICP, use T_L as initial guess for the pose and set Z-coordinates to 0
-        eulers = T_L.as_euler()
-        eulers[[2,3,4]] = 0
-        T_L_pred = SE3.from_euler(eulers[:3], eulers[3:])
+        T_L_pred = T_L
         _pc = (T_L_pred).apply(frame_icp)
         _pc[:, 2] = 0
         T_ICP_OSM = icp_cpp.ICP(
@@ -99,7 +96,7 @@ class Pipeline_P2P:
 
         # Apply fusion between T_L and T_G
         V_R_A = (T_L.inv() * T_G)
-        if np.linalg.norm(V_R_A.log()) < max_correspondence_distance:
+        if np.linalg.norm(V_R_A.log()[:3]) < max_correspondence_distance:
             T_F = T_L * SE3.exp(self.alpha * (T_L.inv() * T_G).log())
         else:
             T_F = T_L
@@ -194,7 +191,6 @@ if __name__ == "__main__":
     import argparse
     import glob
     import json
-    import dataloader_kitti
     import os
     import pathlib
     import pickle
@@ -247,19 +243,20 @@ if __name__ == "__main__":
 
     # Init. point cloud generators, depending on dataloader
     if args.dataloader == "kitti":
+        import dataloader_kitti
         data_dir = args.data_dir
         frames = glob.glob(data_dir + "/*")
         frames.sort()
         pointcloud_iterator = dataloader_kitti.pointcloud_generator(frames, True)
+    elif args.dataloader == "okular":
+        import dataloader_okular
+        pointcloud_iterator = dataloader_okular.pointcloud_generator(args.data_dir)
     else:
         raise Exception("Invalid dataloader")
 
     # Loading global map from file
     if args.map != "":
-        with open(
-                f"{args.map}", "rb"
-        ) as f:
-            sampled_osm_buildings = pickle.load(f)
+        sampled_osm_buildings = np.load(args.map)
     else:
         sampled_osm_buildings = np.zeros((0, 6), dtype=np.float64)
 
