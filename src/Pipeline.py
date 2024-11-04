@@ -279,6 +279,7 @@ if __name__ == "__main__":
         args.deskew,
         args.visualize,
     )
+
     pip.run_all(pointcloud_iterator)
     # Persist result to out_dir
     timestamped_poses = pip.get_poses()

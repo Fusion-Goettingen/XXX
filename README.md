@@ -2,6 +2,7 @@
 **Disclaimer: This repository is currently under construction, more features and data will be added in the coming weeks.**
 
 Read our paper [here](https://www.techrxiv.org/users/812931/articles/1214384-reducing-drift-of-lidar-odometry-by-incorporating-openstreetmap-building-data)
+Download our data [here](https://owncloud.gwdg.de/index.php/s/naydKSNIyTpsndZ)
 
 
 # Quickstart:
@@ -55,7 +56,7 @@ to create a global map with radius of 1 degrees around the geodesic coordinate (
 # Installation
 ## Installation of the core icp_cpp module
 Install the pip package icp_cpp with `pip install src/icp_cpp`.
-Third party C++ dependencies are installed automatically and same pip packages may have to be installed manually (sorry for that :/)
+Third party C++ dependencies are installed automatically and some pip packages may have to be installed manually (sorry for that :/)
 
 # Known problems:
 ## Pipeline.py: Segmentation fault (core dumped)
