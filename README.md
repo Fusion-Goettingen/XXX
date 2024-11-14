@@ -3,7 +3,7 @@
 
 Read our paper [here](https://www.techrxiv.org/users/812931/articles/1214384-reducing-drift-of-lidar-odometry-by-incorporating-openstreetmap-building-data)
 
-Download our data [here](https://owncloud.gwdg.de/index.php/s/naydKSNIyTpsndZ)
+Download our data [here](https://owncloud.gwdg.de/index.php/s/w3qDMuaZxoYarP4)
 
 
 # Quickstart:
