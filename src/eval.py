@@ -159,6 +159,13 @@ if __name__ == "__main__":
         base_dir = Path(args.gt_poses).parent.parent
         seq = Path(args.gt_poses).name.split(".")[0]
         gt_timestamps, gt_poses = load_gt_poses_kitti_odometry(base_dir,seq)
+    elif args.dataloader == "okular":
+        import dataloader_rosbag_v2
+        gt_timestamps, gt_poses = dataloader_rosbag_v2.gt_poses(args.gt_poses,to_cartesian=True,normalize_orientation=True)
+        idx = dataloader_rosbag_v2.closest_searchsorted(gt_timestamps,es_timestamps)
+        gt_timestamps = gt_timestamps[idx]
+        gt_poses = gt_poses[idx]
+        gt_poses = np.array([gt_poses[0].inv() @ T for T in gt_poses])
 
     print_eval(es_poses,gt_poses)
 
@@ -170,6 +177,9 @@ if __name__ == "__main__":
         plt.plot(es_poss[:,0],es_poss[:,1],label="estimated",c="C2")
         plt.axis("equal")
         plt.legend()
+        plt.show()
+
+        plt.plot(range(len(data_dict["times"])),data_dict["times"])
         plt.show()
 
 

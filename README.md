@@ -7,12 +7,13 @@ Download our data [here](https://owncloud.gwdg.de/index.php/s/w3qDMuaZxoYarP4)
 
 
 # Quickstart:
-First, install the `icp_cpp` package using
+Install the `icp_cpp` package using
 ```bash
 pip install ./src/icp_cpp
 ```
-(may require you to download some pip packages manually, sorry :()
-and then run the following commands to
+and then proceed depending on the dataset you want to use.
+## With the KITTI Odometry dataset
+Run the following commands to
 - create a map for a sequence of the KITTI odometry data set
 - execute our method on it
 - and evaluate the results and show a plot of the trajectory
@@ -20,22 +21,38 @@ and then run the following commands to
 seq=00
 kitti_path=/path/to/kitti
 python3 src/create_map.py --dataloader kitti --seq $seq --output_file ./res/map_kitti_$seq.bin
-python3 src/Pipeline.py $kitti_path/sequences/$seq/velodyne/ --map ./res/map_kitti_$seq.bin --out_path ./out/results_kitti_$seq.json
+python3 src/Pipeline.py $kitti_path/sequences/$seq/velodyne/ --map ./res/map_kitti_$seq.npy --out_path ./out/results_kitti_$seq.json
 python3 src/eval.py ./out/results_kitti_$seq.json $kitti_path/poses/$seq.txt --plot
 ```
-
+## With our custom dataset
+Download at least one sequence of our dataset [here](https://owncloud.gwdg.de/index.php/s/w3qDMuaZxoYarP4), unpack it and then execute the following commands to
+- execute our method on the sequence
+- and evaluate the results and show a plot of the trajectory
+```bash
+data_path=/path/to/data_folder
+python3 src/Pipeline.py $data_path/ --map $data_path/map.npy --dataloader okular --out_path ./out/results_okular.json
+python3 src/eval.py ./out/results_okular.json $data_path/gt_poses.npy --dataloader okular --plot
+```
 # Usage:
 ## Execute our method with Pipeline.py
 Execute our method with
 ```bash
-python3 src/Pipeline.py <path/to/data_dir> --map <path/to/map.bin> --out_path <path/to/result.json>
+python3 src/Pipeline.py <path/to/data_dir> --map <path/to/map.npy> --out_path <path/to/result.json>
 ```
 Use `--help` for help.
 The alignment against the global map is skipped if the argument `--map` in not provided.
-Read "Creating a global map" for more information about creating such a global map.
+Read "Creating a global map" for more information about creating a global map.
 You can use the `--visualize` argument for a real-time visualization of our method using RVIZ2.
 For this, execute RVIZ2 and load the config from `./res/pipeline.rviz`,
 then execute our method with the `--visualize` flag.
+
+## Evaluation on the KITTI or our custom dataset
+For evaluation, use
+```
+python3 src/eval.py <path/to/results.json> <path/to/gt_poses> --dataloader <kitti|okular> [--plot]
+```
+where
+-`<path/to/results.json>` is the path to the estimated poses
 
 
 ## Create a map with create_map.py
