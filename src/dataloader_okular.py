@@ -119,21 +119,3 @@ def pointcloud_generator(bag_path,topic="/points"):
         yield t, points
 
     reader.close()
-
-if __name__ == "__main__":
-    #print(first_lidar_pose("/home/aaron/Downloads/dudweiler/"))
-    #generator = pointcloud_generator("/home/aaron/Downloads/dudweiler/")
-    poses = gt_poses("/home/aaron/Downloads/dudweiler/",to_cartesian=True,normalize_orientation=True)
-    files = ["/media/aaron/aaron_ssd/datasets/OKULAr/Rohrbach/r1","/media/aaron/aaron_ssd/datasets/OKULAr/Rohrbach/r2","/media/aaron/aaron_ssd/datasets/OKULAr/Rohrbach/r3","/media/aaron/aaron_ssd/datasets/OKULAr/Braunschweig/b4","/media/aaron/aaron_ssd/datasets/OKULAr/Braunschweig/b5"]
-    for file in files:
-        gt_poses(file)
-    #poses = gt_poses("/home/aaron/Downloads/dudweiler/", to_cartesian=True, normalize_orientation=True)
-
-    #pos = np.array([T.t[:2] for T in poses])
-    #plt.plot(pos[:,0],pos[:,1])
-    #plt.show()
-
-    #timestamp, points = next(generator)
-    #for timestamp, points in generator:
-    #    print(timestamp, points.shape,np.min(points[:,-1]),np.max(points[:,-1]))
-    #    exit()
